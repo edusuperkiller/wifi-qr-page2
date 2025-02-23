@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Подключение к Wi-Fi</title>
+    <style>
+        #video-container { 
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        #wifi-data { display: none; }
+    </style>
+</head>
+<body>
+    <div id="video-container">
+        <!-- Видео с автовоспроизведением (без звука) -->
+        <video id="ad-video" width="100%" controls autoplay muted playsinline>
+            <source src="https://drive.google.com/file/d/1lnin7IMhTGFZQ3wbYpJCxruQpUjGaIaY/view?usp=drive_link" type="video/mp4">
+            Ваш браузер не поддерживает видео.
+        </video>
+        <p>Реклама. Подключение через 10 секунд...</p>
+    </div>
+
+    <div id="wifi-data">
+        <h2>Подключение завершено!</h2>
+        <!-- Ваш существующий Wi-Fi QR-код -->
+        <img src="https://ibb.co/ZRMFNjFK" width="200">
+    </div>
+
+    <script>
+        const video = document.getElementById('ad-video');
+        
+        // Запуск таймера при старте видео
+        video.addEventListener('play', () => {
+            setTimeout(() => {
+                document.getElementById('video-container').style.display = 'none';
+                document.getElementById('wifi-data').style.display = 'block';
+            }, 10000); // 10 секунд
+        });
+    </script>
+</body>
+</html>
