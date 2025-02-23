@@ -1,31 +1,131 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Wi-Fi + Video</title>
+    <title>Wi-Fi Access with Video</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        #video-container { text-align: center; }
-        #wifi-data { display: none; }
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        #video-wrapper {
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        #ad-video {
+            width: 100%;
+            height: auto;
+            max-height: 70vh;
+        }
+
+        #wifi-data {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .skip-btn {
+            margin: 15px;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-    <div id="video-container">
-        <video id="ad-video" width="80%" controls muted playsinline>
-            <source src="files/video.mp4" type="video/mp4">
-        </video>
-        <button onclick="video.play()">Начать просмотр</button>
-    </div>
+    <div class="container">
+        <div id="video-wrapper">
+            <video id="ad-video" autoplay muted playsinline webkit-playsinline>
+                <source src="files/video.mp4" type="video/mp4">
+                Ваш браузер не поддерживает видео.
+            </video>
+        </div>
 
-    <div id="wifi-data">
-        <img src="files/wifi qr.png" width="200">
+        <button id="skip-btn" class="skip-btn" style="display: none;">
+            Пропустить рекламу (Осталось: <span id="timer">10</span>с)
+        </button>
+
+        <div id="wifi-data">
+            <h2>Подключение к Wi-Fi</h2>
+            <img src="files/wifi qr.png" class="qr-code" alt="Wi-Fi QR Code">
+            <p>Наведите камеру на QR-код</p>
+        </div>
     </div>
 
     <script>
         const video = document.getElementById('ad-video');
-        video.addEventListener('play', () => {
-            setTimeout(() => {
-                document.getElementById('video-container').style.display = 'none';
-                document.getElementById('wifi-data').style.display = 'block';
-            }, 10000); // 10 секунд
+        const skipBtn = document.getElementById('skip-btn');
+        let countdown = 10;
+        let timerId;
+
+        // Попытка автовоспроизведения
+        function tryAutoPlay() {
+            const playPromise = video.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.catch(() => {
+                    // Если автовоспроизведение заблокировано
+                    skipBtn.style.display = 'block';
+                    skipBtn.textContent = 'Нажмите для запуска видео';
+                    skipBtn.onclick = () => {
+                        video.play();
+                        skipBtn.style.display = 'none';
+                        startTimer();
+                    };
+                });
+            }
+        }
+
+        function startTimer() {
+            timerId = setInterval(() => {
+                countdown--;
+                document.getElementById('timer').textContent = countdown;
+                
+                if (countdown <= 0) {
+                    clearInterval(timerId);
+                    showQrCode();
+                }
+            }, 1000);
+        }
+
+        function showQrCode() {
+            video.pause();
+            document.getElementById('video-wrapper').style.display = 'none';
+            document.getElementById('wifi-data').style.display = 'block';
+            skipBtn.style.display = 'none';
+        }
+
+        // Инициализация
+        video.addEventListener('loadedmetadata', tryAutoPlay);
+        video.addEventListener('play', startTimer);
+        
+        skipBtn.addEventListener('click', () => {
+            clearInterval(timerId);
+            showQrCode();
         });
     </script>
 </body>
