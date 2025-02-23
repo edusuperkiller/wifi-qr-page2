@@ -1,35 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Подключение к Wi-Fi</title>
+    <title>Wi-Fi + Video</title>
     <style>
-        #video-container { 
-            max-width: 600px;
-            margin: 0 auto;
-        }
+        #video-container { text-align: center; }
         #wifi-data { display: none; }
     </style>
 </head>
 <body>
     <div id="video-container">
-        <!-- Видео с автовоспроизведением (без звука) -->
-        <video id="ad-video" width="100%" controls autoplay muted playsinline>
-            <source src="https://drive.google.com/file/d/1lnin7IMhTGFZQ3wbYpJCxruQpUjGaIaY/view?usp=drive_link" type="video/mp4">
-            Ваш браузер не поддерживает видео.
+        <video id="ad-video" width="80%" controls muted playsinline>
+            <source src="files/video.mp4" type="video/mp4">
         </video>
-        <p>Реклама. Подключение через 10 секунд...</p>
+        <button onclick="video.play()">Начать просмотр</button>
     </div>
 
     <div id="wifi-data">
-        <h2>Подключение завершено!</h2>
-        <!-- Ваш существующий Wi-Fi QR-код -->
-        <img src="https://ibb.co/ZRMFNjFK" width="200">
+        <img src="files/wifi qr.png" width="200">
     </div>
 
     <script>
         const video = document.getElementById('ad-video');
-        
-        // Запуск таймера при старте видео
         video.addEventListener('play', () => {
             setTimeout(() => {
                 document.getElementById('video-container').style.display = 'none';
