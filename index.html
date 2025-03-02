@@ -8,27 +8,37 @@
             margin: 0;
             padding: 20px;
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #1a237e 0%, #0d47a1 50%, #1976d2 100%);
+            background: linear-gradient(-45deg, #f0f0f0, #ffffff, #e0e0e0, #f5f5f5);
+            background-size: 400% 400%;
             min-height: 100vh;
+            animation: gradientFlow 15s ease infinite;
         }
-        
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         .container {
             max-width: 600px;
             margin: 0 auto;
             text-align: center;
+            position: relative;
+            z-index: 1;
         }
 
         #video-wrapper {
-            background: rgba(0,0,0,0.3);
+            background: rgba(255,255,255,0.9);
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
             margin: 20px 0;
             transition: transform 0.3s ease;
         }
 
         #video-wrapper:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
         }
 
         #ad-video {
@@ -45,36 +55,48 @@
         }
 
         .qr-code {
-            width: 200px;
-            height: 200px;
-            margin: 20px auto;
-            padding: 15px;
-            background: rgba(255,255,255,0.9);
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            width: 280px;
+            height: 280px;
+            margin: 25px auto;
+            padding: 20px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.15);
             transition: transform 0.3s ease;
+            display: block;
         }
 
         .qr-code:hover {
-            transform: scale(1.05);
+            transform: scale(1.03);
+        }
+
+        #wifi-data h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        #wifi-data p {
+            font-size: 1.1em;
+            margin-top: 15px;
+            color: #666;
         }
 
         .skip-btn {
             margin: 15px;
             padding: 12px 25px;
-            background: rgba(255,255,255,0.9);
-            color: #1976d2;
+            background: rgba(0,0,0,0.8);
+            color: white;
             border: none;
             border-radius: 25px;
             cursor: pointer;
             font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
         }
 
         .skip-btn:hover {
-            background: white;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.9);
             transform: translateY(-2px);
         }
 
@@ -83,38 +105,25 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .bg-bubbles {
-            position: fixed;
-            width: 100vw;
-            height: 100vh;
-            top: 0;
-            left: 0;
-            z-index: 0;
-            overflow: hidden;
-        }
-
-        .bg-bubbles div {
-            position: absolute;
-            background: rgba(255,255,255,0.05);
-            border-radius: 50%;
-            animation: float 20s infinite;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(100vh) scale(0.5); }
-            100% { transform: translateY(-100vh) scale(1.2); }
+        @media (max-width: 480px) {
+            .qr-code {
+                width: 90%;
+                height: auto;
+                max-width: 300px;
+                padding: 15px;
+            }
+            
+            #wifi-data h2 {
+                font-size: 1.5em;
+            }
+            
+            #wifi-data p {
+                font-size: 1em;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="bg-bubbles">
-        <div style="left: 10%; animation-delay: 0s;"></div>
-        <div style="left: 30%; animation-delay: 2s;"></div>
-        <div style="left: 50%; animation-delay: 5s;"></div>
-        <div style="left: 70%; animation-delay: 7s;"></div>
-        <div style="left: 90%; animation-delay: 11s;"></div>
-    </div>
-
     <div class="container">
         <div id="video-wrapper">
             <video id="ad-video" autoplay muted playsinline webkit-playsinline>
@@ -128,9 +137,9 @@
         </button>
 
         <div id="wifi-data">
-            <h2 style="color: white;">Подключение к Wi-Fi</h2>
+            <h2>Подключение к Wi-Fi</h2>
             <img src="files/wifi qr.png" class="qr-code" alt="Wi-Fi QR Code">
-            <p style="color: white;">Наведите камеру на QR-код</p>
+            <p>Наведите камеру на QR-код</p>
         </div>
     </div>
 
