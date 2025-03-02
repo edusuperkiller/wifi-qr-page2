@@ -24,13 +24,18 @@
             overflow: hidden;
             box-shadow: 0 8px 32px rgba(0,0,0,0.3);
             margin: 20px 0;
+            transition: transform 0.3s ease;
+        }
+
+        #video-wrapper:hover {
+            transform: translateY(-5px);
         }
 
         #ad-video {
             width: 100%;
             height: auto;
             max-height: 70vh;
-            display: block;
+            border-radius: 12px;
         }
 
         #wifi-data {
@@ -43,10 +48,15 @@
             width: 200px;
             height: 200px;
             margin: 20px auto;
-            padding: 10px;
-            background: white;
+            padding: 15px;
+            background: rgba(255,255,255,0.9);
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .qr-code:hover {
+            transform: scale(1.05);
         }
 
         .skip-btn {
@@ -58,21 +68,53 @@
             border-radius: 25px;
             cursor: pointer;
             font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             transition: all 0.3s ease;
         }
 
         .skip-btn:hover {
             background: white;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
             transform: translateY(-2px);
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .bg-bubbles {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-bubbles div {
+            position: absolute;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(0.5); }
+            100% { transform: translateY(-100vh) scale(1.2); }
         }
     </style>
 </head>
 <body>
+    <div class="bg-bubbles">
+        <div style="left: 10%; animation-delay: 0s;"></div>
+        <div style="left: 30%; animation-delay: 2s;"></div>
+        <div style="left: 50%; animation-delay: 5s;"></div>
+        <div style="left: 70%; animation-delay: 7s;"></div>
+        <div style="left: 90%; animation-delay: 11s;"></div>
+    </div>
+
     <div class="container">
         <div id="video-wrapper">
             <video id="ad-video" autoplay muted playsinline webkit-playsinline>
@@ -141,10 +183,5 @@
             showQrCode();
         });
     </script>
-</body>
-</html>
-
-    <!-- Скрипт без изменений -->
-    <!-- ... -->
 </body>
 </html>
